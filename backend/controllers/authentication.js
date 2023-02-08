@@ -5,21 +5,21 @@ const User = require("../models/user");
 const authenticationController = {
   register: async (req, res) => {
     try {
-      const { name, password, role } = req.body;
+      const { name, email, password, role } = req.body;
 
       // check fields
-      if (!name || !password || !role)
+      if (!name || !password || !role || !email)
         return res.status(400).json({ msg: "Please fill in all fields." });
 
-      // check user
+      // check user duplicate
       const user = await User.findOne({
-        name,
+        email,
       });
-      //   console.log(user);
+
       if (user)
         return res
           .status(400)
-          .json({ msg: "This name is already registered in our system." });
+          .json({ msg: "This email is already registered in our system." });
 
       // check length password
       if (password.length < 6)
@@ -36,6 +36,7 @@ const authenticationController = {
         name,
         password: hashPassword,
         role,
+        email,
       });
 
       res.status(200).json({
@@ -48,14 +49,14 @@ const authenticationController = {
   },
   login: async (req, res) => {
     try {
-      const { name, password } = req.body;
+      const { email, password } = req.body;
 
       // check fields
-      if (!name || !password)
+      if (!email || !password)
         return res.status(400).json({ msg: "Please fill in all fields." });
 
       //
-      const user = await User.findOne({ name });
+      const user = await User.findOne({ email });
       if (!user) {
         return res.json({ error: "User not found" });
       }

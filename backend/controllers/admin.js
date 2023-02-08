@@ -1,4 +1,3 @@
-const { findOneAndUpdate } = require("../models/course");
 const Course = require("../models/course");
 const User = require("../models/user");
 
@@ -23,7 +22,7 @@ const adminController = {
       }
 
       res.status(200).json({
-        msg: "Succsefully get data user and course",
+        msg: "Succsefully get data users and courses",
         userCount: users.length,
         courseCount: courses.length,
         freeCourse: freeCourse,
@@ -41,7 +40,7 @@ const adminController = {
       if (!title || !price || !category)
         return res.status(400).json({ msg: "Please fill in all fields." });
 
-      // check course
+      // check course duplicate
       const course = await Course.findOne({
         title,
       });
@@ -67,12 +66,12 @@ const adminController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  update: async (req, res) => {
+  updateCourse: async (req, res) => {
     try {
       const { title, price } = req.body;
 
+      // check duplicate
       const course = await Course.findOne({ title, isDelete: false });
-      console.log(course);
       if (course)
         return res
           .status(400)
@@ -85,6 +84,7 @@ const adminController = {
 
       res.status(200).json({
         msg: "Succsefully update course",
+        courseId: req.params.id,
       });
     } catch (err) {
       res.status(500).json({ msg: err.message });
@@ -101,6 +101,7 @@ const adminController = {
           },
         }
       );
+
       res.status(200).json({
         msg: "Succsesfully deletedsofly course",
         courseId: course._id,
@@ -109,7 +110,7 @@ const adminController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  deleteSoftStaff: async (req, res) => {
+  deleteSoftUser: async (req, res) => {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.id },
@@ -121,6 +122,7 @@ const adminController = {
         }
       );
       res
+
         .status(200)
         .json({ msg: "Succsesfully deletedsofly user", userId: user._id });
     } catch (err) {

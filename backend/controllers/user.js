@@ -46,6 +46,7 @@ const userController = {
   },
   seacrhCourse: async (req, res) => {
     try {
+      // sort courses from smallest to largest and free
       const courses = await Course.aggregate([
         {
           $sort: {
@@ -58,8 +59,9 @@ const userController = {
           },
         },
       ]);
+
       res.status(200).json({
-        msg: "Succsefully get course category",
+        msg: "Succsefully seacrh and sort price",
         totals: courses.length,
         data: courses,
       });

@@ -1,14 +1,15 @@
 const route = require("express").Router();
 const upload = require("../middlewares/upload");
 const uploadImage = require("../middlewares/uploadImage");
-const auth = require("../middlewares/auth");
+const authAdmin = require("../middlewares/authAdmin");
 const uploadController = require("../controllers/upload");
 
+// upload image routes
 route.post(
-  "/api/upload",
+  "/api/admin/upload",
   uploadImage,
   upload,
-  auth,
+  authAdmin,
   uploadController.uploadAvatar
 );
 

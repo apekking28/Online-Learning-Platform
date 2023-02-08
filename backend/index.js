@@ -7,7 +7,7 @@ const adminRoutes = require("./routes/admin");
 const authenticationRoutes = require("./routes/authentication");
 const upload = require("./routes/upload");
 
-// db
+// connect to mongo atlas
 mongoose.set("strictQuery", true);
 mongoose.connect(
   process.env.MONGO_URL,
@@ -26,10 +26,9 @@ mongoose.connect(
   }
 );
 
-// mw
+// middlewares
 app.use(express.json());
 express.urlencoded({ extended: true });
-
 app.use("/uploads", express.static("uploads"));
 
 // route

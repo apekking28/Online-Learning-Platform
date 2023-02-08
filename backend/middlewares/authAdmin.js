@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const auth = (req, res, next) => {
+const authAdmin = (req, res, next) => {
   try {
     // check ac token
     const token = req.header("Authorization");
@@ -14,7 +14,7 @@ const auth = (req, res, next) => {
       if (user.role === "admin") {
         next();
       } else {
-        return res.status(400).json({ msg: "just admin" });
+        return res.status(400).json({ msg: "just admin access" });
       }
     });
   } catch (err) {
@@ -22,4 +22,4 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = authAdmin;

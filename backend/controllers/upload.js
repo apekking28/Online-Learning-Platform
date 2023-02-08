@@ -11,7 +11,6 @@ const uploadController = {
     try {
       // get file
       const file = req.file;
-
       // upload to cloudinary
       cloudinary.v2.uploader.upload(
         file.path,

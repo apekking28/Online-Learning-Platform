@@ -7,6 +7,10 @@ const userSchema = new Schema(
       required: [true, "Please enter your name"],
       trim: true,
     },
+    email: {
+      type: String,
+      required: [true, "Please enter your email"],
+    },
     password: {
       type: String,
       required: [true, "Please enter your passsword"],
